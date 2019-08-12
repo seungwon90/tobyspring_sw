@@ -1,4 +1,4 @@
-package springboook.user.dao;
+package springbook.user.dao;
 
 import springbook.user.domain.User;
 
@@ -47,9 +47,20 @@ public class UserDao {
         return user;
     }
     public void deleteAll() throws SQLException {
-        Connection c = dataSource.getConnection();
+        Connection c = null;
+        PreparedStatement ps = null;
 
-        PreparedStatement ps = c.prepareStatement("delete from users");
+        try {
+            c = dataSource.getConnection();
+            ps = c.prepareStatement("delete from users");
+            ps.executeUpdate();
+        } catch (SQLException e){
+            throw e;
+        } finally {
+            if()
+        }
+
+        ps = c.prepareStatement("delete from users");
         ps.executeUpdate();
 
         ps.close();
@@ -71,4 +82,5 @@ public class UserDao {
 
         return count;
     }
+
 }
