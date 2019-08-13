@@ -1,4 +1,6 @@
-package springbook.user.dao;
+package springbook.trash;
+
+import springbook.trash.ConnectionMaker;
 
 import java.sql.Connection;
 import java.sql.SQLException;

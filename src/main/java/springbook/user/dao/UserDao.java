@@ -8,6 +8,11 @@ import java.sql.*;
 
 public class UserDao {
     private DataSource dataSource;
+    private JdbcContext jdbcContext;
+
+    public void setJdbcContext(JdbcContext jdbcContext){
+        this.jdbcContext = jdbcContext;
+    }
 
     public void setDataSource(DataSource dataSource) {
 
@@ -15,7 +20,7 @@ public class UserDao {
     }
 
     public void add(final User user) throws SQLException {
-        jdbcContextWithStatementStrategy(
+        this.jdbcContext.workWithStatementStrategy(
                 new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(Connection c)
@@ -69,7 +74,7 @@ public class UserDao {
         return user;
     }
     public void deleteAll() throws SQLException {
-        jdbcContextWithStatementStrategy(
+        this.jdbcContext.workWithStatementStrategy(
                 new StatementStrategy() {
                     @Override
                     public PreparedStatement makePreparedStatement(Connection c)
@@ -100,7 +105,7 @@ public class UserDao {
     // 기존에 deleteAll 메소드에 있던 내용이 다 빠지고 deleteAll 메소드가 짧아진다. (가독성이좋다?)
     // 전략패턴의 컨텍스트 - PreparedStatement를 실행하는 jdbc의 흐름.
     //                전략 - PreparedStatemtnt를 생성하는 것.
-
+    /*
     public void jdbcContextWithStatementStrategy(StatementStrategy stmt) throws SQLException {
         Connection c = null;
         PreparedStatement ps = null;
@@ -126,5 +131,7 @@ public class UserDao {
             }
         }
     }
+
+     */
 
 }
