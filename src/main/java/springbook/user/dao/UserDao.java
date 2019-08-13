@@ -10,11 +10,23 @@ public class UserDao {
     private DataSource dataSource;
 
     public void setDataSource(DataSource dataSource) {
+
         this.dataSource = dataSource;
     }
 
-    public void add(User user) throws SQLException {
-        StatementStrategy st = new AddStatement(user);
+    public void add(final User user) throws SQLException {
+        class AddStatement implements StatementStrategy {
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                PreparedStatement ps = c.prepareStatement(
+                        "insert into users(id, name, password) values(?,?,?)");
+                ps.setString(1, user.getId());
+                ps.setString(2, user.getName());
+                ps.setString(3, user.getPassword());
+
+                return ps;
+            }
+        }
+        StatementStrategy st = new AddStatement();
         jdbcContextWithStatementStrategy(st);
     }
 
